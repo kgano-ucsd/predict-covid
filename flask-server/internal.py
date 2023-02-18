@@ -33,7 +33,7 @@ image_transforms = transforms.Compose([
                             [0.33165374, 0.33165374, 0.33165374])
     ])
 
-def preprocess_img(image_path: str):
+def preprocess(image_path: str):
     img = None
     if image_path.split(".")[1] == "jpg":
         img = plt.imread(image_path)
@@ -56,7 +56,7 @@ def standardize_img(preprocessed_img):
 
 def infer_single(image_path: str):
 
-    preprocessed = preprocess_img(image_path)
+    preprocessed = preprocess(image_path)
     x = standardize_img(preprocessed)
     dataset = MyDataset_test(x,image_transforms) # x is output of standardize
 
@@ -65,7 +65,7 @@ def infer_single(image_path: str):
 def infer_many(img_pths):
     preds = []
     for pth in img_pths:
-        preprocessed = preprocess_img(pth)
+        preprocessed = preprocess(pth)
         x = standardize_img(preprocessed)
         dataset = MyDataset_test(x,image_transforms) # x is output of standardize
         preds.append(classify(dataset))
