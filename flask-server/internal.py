@@ -60,7 +60,7 @@ def infer_single(image_path: str):
     x = standardize_img(preprocessed)
     dataset = MyDataset_test(x,image_transforms) # x is output of standardize
 
-    return classify(dataset)[0]
+    return classify(dataset)
 
 def infer_many(img_pths):
     preds = []
