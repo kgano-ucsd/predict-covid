@@ -1,6 +1,6 @@
 import os
 #os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-import pickle
+import dill as pickle
 from datetime import datetime
 import cv2
 import math
@@ -62,10 +62,8 @@ def estimate(X_train,y_train):
     nval=0.2*len(X_train)
     batch_size=16
     epochs= 2
-    num_cpu = multiprocessing.cpu_count()
     num_classes = 2
     torch.manual_seed(8)
-    torch.cuda.manual_seed(8)
     np.random.seed(8)
     random.seed(8)
     
@@ -142,9 +140,9 @@ def estimate(X_train,y_train):
     
     dataloaders = {
         'train' : data.DataLoader(train_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
         'valid' : data.DataLoader(valid_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)  
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)  
 }
     
    
