@@ -67,8 +67,7 @@ def estimate(X_train,y_train):
     np.random.seed(8)
     random.seed(8)
     
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
+
     
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -151,15 +150,12 @@ def estimate(X_train,y_train):
     
         
     model = ResidualAttentionModel(10)
-    checkpoint0 = torch.load('model_resAttention.pth')
-    model.load_state_dict(checkpoint0)
+    # checkpoint0 = torch.load('model_resAttention.pth')
+    # model.load_state_dict(checkpoint0)
     num_ftrs = model.fc.in_features
        
     model.fc = nn.Linear(num_ftrs,num_classes)
    
-      
-    
-    model = nn.DataParallel(model, device_ids=[ 0, 1,2, 3]).cuda()
     criterion = nn.CrossEntropyLoss()
     #optimizer = optim.SGD(model.parameters(), lr=0.06775, momentum=0.5518,weight_decay=0.000578)
     optimizer = optim.Adam(model.parameters(), lr=0.0001,weight_decay=0.05)
@@ -260,7 +256,7 @@ def estimate(X_train,y_train):
                     best_acc = epoch_acc
                     best_loss = epoch_loss
                     best_epoch = epoch
-                    best_model_wts = copy.deepcopy(model.module.state_dict())
+                    best_model_wts = copy.deepcopy(model.state_dict())
                     best_model_wts_module = copy.deepcopy(model.state_dict())
                 
     model.load_state_dict(best_model_wts_module)
@@ -275,7 +271,7 @@ def estimate(X_train,y_train):
     print('best epoch: ', best_epoch)
      
     ## Replacing the last fully connected layer with SVM or ExtraTrees Classifiers  
-    model.module.fc = nn.Identity()
+    model.fc = nn.Identity()
    
     for param in model.parameters():
              param.requires_grad_(False)
@@ -336,8 +332,6 @@ def predict(X_test,model_main=None):
     
         
     model_main = ResidualAttentionModel(2)
-    checkpoint0 = torch.load("Model_residual_state.pth")
-    model_main.load_state_dict(checkpoint0)
     
     for param in model_main.parameters():
              param.requires_grad_(False) 

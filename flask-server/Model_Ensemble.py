@@ -65,18 +65,13 @@ def estimate(X_train,y_train):
     batch_size=20
     epochs=2
     # Number of classes
-    num_cpu = multiprocessing.cpu_count()
     num_classes = 2
     torch.manual_seed(8)
-    torch.cuda.manual_seed(8)
     np.random.seed(8)
     random.seed(8)
     
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
     
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     
       
     X = []
@@ -145,22 +140,22 @@ def estimate(X_train,y_train):
     
     dataloaders = {
         'train' : data.DataLoader(train_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
         'valid' : data.DataLoader(valid_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)
 }
     
 
      
     modelA = DenseNet121(num_classes,pretrained=True)
     num_ftrs1 = modelA.fc.in_features
-    checkpoint0 = torch.load('Model_densenet121_state.pth', map_location='cpu')
+    checkpoint0 = torch.load('Model_densenet121_state.pth')
     modelA.load_state_dict(checkpoint0) 
         
     modelC = ResidualAttentionModel(2)
     num_ftrs2 = modelC.fc.in_features
-    checkpoint0 = torch.load('Model_residual_state.pth', map_location='cpu')
-    modelC.load_state_dict(checkpoint0)
+    checkpoint1 = torch.load('Model_residual_state.pth')
+    modelC.load_state_dict(checkpoint1)
     
        
     model = MyEnsemble(modelA, modelC,num_ftrs1,num_ftrs2)
