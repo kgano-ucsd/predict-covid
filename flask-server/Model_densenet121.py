@@ -149,7 +149,6 @@ def estimate(X_train,y_train):
         
     model = DenseNet121(num_classes,pretrained=True)
     
-    model = nn.DataParallel(model, device_ids=[ 0, 1,2, 3])
     #print(model)
     criterion = nn.CrossEntropyLoss()
     #optimizer = optim.SGD(model.parameters(), lr=0.06775, momentum=0.5518,weight_decay=0.000578)
