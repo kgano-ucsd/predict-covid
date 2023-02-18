@@ -1,4 +1,7 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid'
+import lungs1 from '../lungs1.jpg'
+
+
 export default function View() {
 
 
@@ -13,8 +16,8 @@ export default function View() {
         </header>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
             {/* information */}
-            <div className="sm:col-span-1">
-                <div className="px-4 py-5 sm:px-6">
+            <div className="sm:col-span-1 py-5 px-4 sm:px-6">
+                <div>
                     <h3 className="text-lg font-medium leading-6 text-gray-900">Applicant Information</h3>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
                 </div>
@@ -78,8 +81,18 @@ export default function View() {
             </div>
             {/* <div className="divider lg:divider-horizontal" /> */}
             {/* ct scans */}
-            <div className="sm:col-span-1">
-                im a pirate
+            <div className="sm:col-span-1 py-5 px-4 sm:px-6">
+                <div className="bg-base-100 border border-gray-200 py-4">
+                    <h2 className="card-title">CT Scans</h2>
+                    <figure className="px-10 pt-10">
+                        <img src={lungs1} alt="Shoes" className="rounded-xl" />
+                    </figure>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div className="card-actions">
+                        <button className="btn btn-primary">Buy Now</button>
+                    </div>
+
+                </div>
             </div>
 
         </div>
