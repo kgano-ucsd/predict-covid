@@ -14,6 +14,15 @@ from torch.utils.data import Dataset, DataLoader, Subset
 nrows = 256
 ncolumns = 256
 num_classes = 2
+image_transforms = transforms.Compose([
+        transforms.Lambda(lambda x: x/255),
+        transforms.ToPILImage(), 
+        transforms.Resize((230, 230)),
+        transforms.CenterCrop(size=224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.45271412, 0.45271412, 0.45271412],
+                            [0.33165374, 0.33165374, 0.33165374])
+    ])
 
 def preprocess_img(image_path):
     img = None
@@ -42,7 +51,9 @@ def standardize_img(preprocessed_img):
     return np.array(X)
 
 def infer_single(image_path):
-    preprocessed = standardize_img
+
+    preprocessed = preprocess_img(image_path)
+    x = standardize_img(preprocessed)
     model_main = DenseNet121(num_classes,pretrained=True)
     checkpoint0 = torch.load("Model_densenet121_state.pth")
     model_main.load_state_dict(checkpoint0)
@@ -50,16 +61,6 @@ def infer_single(image_path):
     clf = joblib.load('classifier_model.sav')
     model_main.eval()
     model_main.fc = nn.Identity()
-
-    image_transforms = transforms.Compose([
-            transforms.Lambda(lambda x: x/255),
-            transforms.ToPILImage(), 
-            transforms.Resize((230, 230)),
-            transforms.CenterCrop(size=224),
-            transforms.ToTensor(),
-            transforms.Normalize([0.45271412, 0.45271412, 0.45271412],
-                                [0.33165374, 0.33165374, 0.33165374])
-        ])
         
     dataset = MyDataset_test(x,image_transforms) # x is output of standardize
 
@@ -94,16 +95,6 @@ def infer_single(image_path):
     clf = joblib.load('classifier_model.sav')
     model_main.eval()
     model_main.fc = nn.Identity()
-
-    image_transforms = transforms.Compose([
-            transforms.Lambda(lambda x: x/255),
-            transforms.ToPILImage(), 
-            transforms.Resize((230, 230)),
-            transforms.CenterCrop(size=224),
-            transforms.ToTensor(),
-            transforms.Normalize([0.45271412, 0.45271412, 0.45271412],
-                                [0.33165374, 0.33165374, 0.33165374])
-        ])
         
     dataset = MyDataset_test(x,image_transforms) # x is output of standardize
 
