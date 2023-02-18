@@ -246,7 +246,7 @@ def estimate(X_train,y_train):
                     best_acc = epoch_acc
                     best_loss = epoch_loss
                     best_epoch = epoch
-                    best_model_wts = copy.deepcopy(model.module.state_dict())
+                    best_model_wts = copy.deepcopy(model.state_dict())
                     best_model_wts_module = copy.deepcopy(model.state_dict())
                 
     model.load_state_dict(best_model_wts_module)
@@ -261,7 +261,7 @@ def estimate(X_train,y_train):
     print('best epoch: ', best_epoch)
      
     ## Replacing the last fully connected layer with SVM or ExtraTrees Classifiers  
-    model.module.fc = nn.Identity()
+    model.fc = nn.Identity()
    
     for param in model.parameters():
              param.requires_grad_(False)
