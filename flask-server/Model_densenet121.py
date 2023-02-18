@@ -97,8 +97,6 @@ def estimate(X_train,y_train):
     
     X_train, X_val, y_train, y_val = train_test_split(x, y_train, test_size=0.2, random_state=2)
 
-    def divide(x):
-        return x / 255
     
     
     image_transforms = { 
