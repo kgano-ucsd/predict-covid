@@ -9,11 +9,20 @@ from models import DenseNet121
 import joblib
 import torch.nn as nn
 from utililties import *
-from torch.utils.data import Dataset, DataLoader, Subset
+from torch.utils.data import DataLoader
+
+num_classes = 2
+model_main = DenseNet121(num_classes,pretrained=True)
+checkpoint0 = torch.load("Model_densenet121_state.pth")
+model_main.load_state_dict(checkpoint0)
+
+clf = joblib.load('classifier_model.sav')
+model_main.eval()
+model_main.fc = nn.Identity()
 
 nrows = 256
 ncolumns = 256
-num_classes = 2
+
 image_transforms = transforms.Compose([
         transforms.Lambda(lambda x: x/255),
         transforms.ToPILImage(), 
@@ -24,7 +33,7 @@ image_transforms = transforms.Compose([
                             [0.33165374, 0.33165374, 0.33165374])
     ])
 
-def preprocess_img(image_path):
+def preprocess_img(image_path: str):
     img = None
     if image_path.split(".")[1] == "jpg":
         img = plt.imread(image_path)
@@ -33,11 +42,6 @@ def preprocess_img(image_path):
         img = cv2.imread(image_path)
     out = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return out
-
-# COVID_PATH = f"data/training/COVID/"
-# NO_COVID_PATH = f"data/training/NonCOVID/"
-# # image_path = f"{COVID_PATH}2020.01.24.919183-p27-132.png"
-# image_path = f"{NO_COVID_PATH}30_0.jpg"
 
 def standardize_img(preprocessed_img):
     # print(data)
@@ -50,20 +54,24 @@ def standardize_img(preprocessed_img):
 
     return np.array(X)
 
-def infer_single(image_path):
+def infer_single(image_path: str):
 
     preprocessed = preprocess_img(image_path)
     x = standardize_img(preprocessed)
-    model_main = DenseNet121(num_classes,pretrained=True)
-    checkpoint0 = torch.load("Model_densenet121_state.pth")
-    model_main.load_state_dict(checkpoint0)
-
-    clf = joblib.load('classifier_model.sav')
-    model_main.eval()
-    model_main.fc = nn.Identity()
-        
     dataset = MyDataset_test(x,image_transforms) # x is output of standardize
 
+    return classify(dataset)[0]
+
+def infer_many(img_pths):
+    preds = []
+    for pth in img_pths:
+        preprocessed = preprocess_img(pth)
+        x = standardize_img(preprocessed)
+        dataset = MyDataset_test(x,image_transforms) # x is output of standardize
+        preds.append(classify(dataset))
+    return preds
+
+def classify(dataset):
     for param in model_main.parameters():
                 param.requires_grad_(False)
 
@@ -79,49 +87,9 @@ def infer_single(image_path):
         
         for ii in range(len(preds)):
             if preds[ii] > 0.5:
-                print(preds)
-                y_pred2.append('COVID')
-                print('covid')
+                y_pred2.append('COVID Positive')
             else:
-                y_pred2.append('NonCOVID')
-                print('noncovid')
+                y_pred2.append('COVID Negative')
 
-    print(y_pred2)
-
-    model_main = DenseNet121(num_classes,pretrained=True)
-    checkpoint0 = torch.load("Model_densenet121_state.pth")
-    model_main.load_state_dict(checkpoint0)
-
-    clf = joblib.load('classifier_model.sav')
-    model_main.eval()
-    model_main.fc = nn.Identity()
-        
-    dataset = MyDataset_test(x,image_transforms) # x is output of standardize
-
-    for param in model_main.parameters():
-                param.requires_grad_(False)
-
-    dataloader = DataLoader(
-    dataset,
-    batch_size=16,
-    pin_memory=True,worker_init_fn=np.random.seed(7), drop_last=False)
-
-    y_pred2=[]
-    for inputs in dataloader:
-        outputs = model_main(inputs)
-        preds = clf.predict(outputs)
-        
-        for ii in range(len(preds)):
-            if preds[ii] > 0.5:
-                print(preds)
-                y_pred2.append('COVID')
-                print('covid')
-            else:
-                y_pred2.append('NonCOVID')
-                print('noncovid')
-
-    print(y_pred2)
-
-
-
+    return y_pred2[0]
 
