@@ -39,7 +39,7 @@ export default function Login() {
 
                 if (res.data.success) {
                     sessionStorage.setItem('token', JSON.stringify(res.data));
-
+                    window.location.reload();
 
                 }
                 return res.data

@@ -3,9 +3,46 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
 
-export default function Home() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+function getToken() {
+    const tokenString = sessionStorage.getItem('token');
+    if (tokenString == null || tokenString == "undefined") {
+        return null;
+    }
+    console.log(tokenString);
+    return tokenString;
+    const userToken = JSON.parse(tokenString);
+    return userToken
+}
 
+
+function ActionButton(props) {
+    const token = props.token;
+    if (token == null || token['success'] == false) {
+        return <Link to="/login"
+            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+            Login Portal
+        </Link>;
+    } else if (token['role'] == "doctor") {
+        return <Link to="/create"
+            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+            Doctor Portal
+        </Link>;
+    } else if (token['role'] == "patient") {
+        return <Link to="/patient"
+            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+            Patient Portal
+        </Link>
+    }
+    return <p>wtf</p>;
+}
+
+
+export default function Home() {
+
+    const token = JSON.parse(getToken());
     return (
         <div className="isolate bg-white">
             <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu  sm:top-[-20rem]">
@@ -42,7 +79,7 @@ export default function Home() {
 
                             <img className="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600" alt="" />
                         </a>
-                        <span className="ml-2 text-2xl font-bold">vis.ai</span>
+                        <span className="ml-2 text-2xl font-bold">thrive.ai</span>
                     </div>
 
                 </nav>
@@ -61,23 +98,15 @@ export default function Home() {
                         </div> */}
                         <div className="text-left">
                             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                                vis.ai
+                                thrive.ai
                             </h1>
                             <p className="mt-6 text-lg leading-8 text-gray-600">
                                 Patient care is more than just a diagnosis.
                             </p>
 
                             <div className="mt-10 flex items-left justify-left gap-x-6">
-                                <Link to="/create"
-                                    className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    Doctor Portal
-                                </Link>
-                                <Link to="/patient"
-                                    className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    Patient Portal
-                                </Link>
+                                <ActionButton token={token} />
+
                             </div>
                         </div>
 

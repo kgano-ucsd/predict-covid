@@ -75,7 +75,7 @@ function App() {
             {/* <Route path='/patient' element={<Patient />} /> */}
             <Route path='/patient-demo' element={<PDemo />} />
             <Route path='/view' element={<PatientView />} />
-            {/* <Route path='/login' element={<Login />} /> */}
+            <Route path='/login' element={<Navigate to="/" />} />
           </Routes>
         </Router>
 
@@ -97,6 +97,7 @@ function App() {
             <Route path='/patient-demo' element={<PDemo />} />
             {/* <Route path='/view' element={<PatientView />} /> */}
             {/* <Route path='/login' element={<Login />} /> */}
+            <Route path='/login' element={<Navigate to="/" />} />
           </Routes>
         </Router>
 
