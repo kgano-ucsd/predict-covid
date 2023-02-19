@@ -15,15 +15,7 @@ from pytorch_grad_cam import *
 from pytorch_grad_cam.utils.image import show_cam_on_image, \
     preprocess_image
 
-num_classes = 2
-model_main = DenseNet121(num_classes,pretrained=True)
-checkpoint0 = torch.load("Model_densenet121_state.pth")
-model_main.load_state_dict(checkpoint0)
-model_main.eval()
 
-clf = joblib.load('classifier_model.sav')
-model_main.eval()
-model_main.fc = nn.Identity()
 
 nrows = 256
 ncolumns = 256
@@ -77,6 +69,14 @@ def infer_many(img_pths):
     return preds
 
 def classify(dataset):
+    num_classes = 2
+    model_main = DenseNet121(num_classes,pretrained=True)
+    checkpoint0 = torch.load("Model_densenet121_state.pth")
+    model_main.load_state_dict(checkpoint0)
+    model_main.eval()
+
+    clf = joblib.load('classifier_model.sav')
+    model_main.fc = nn.Identity()
     for param in model_main.parameters():
                 param.requires_grad_(False)
 
@@ -100,6 +100,12 @@ def classify(dataset):
 
 def generate_fullgrad(image_path: str, output_path: str):
 
+    num_classes = 2
+    model_main = DenseNet121(num_classes,pretrained=True)
+    checkpoint0 = torch.load("Model_densenet121_state.pth")
+    model_main.load_state_dict(checkpoint0)
+    model_main.eval()
+
     def reshape_transform(tensor):
         return tensor
 
@@ -108,22 +114,20 @@ def generate_fullgrad(image_path: str, output_path: str):
     cam = FullGrad(model=model_main,
         target_layers=layer,
         reshape_transform=reshape_transform)
-    
-    rgb_img = preprocess(image_path)[:, :, ::-1]
+
+    rgb_img = preprocess(image_path)
     rgb_img = np.float32(rgb_img) / 255
     input_tensor = preprocess_image(rgb_img, mean=[0.5, 0.5, 0.5],
                                     std=[0.5, 0.5, 0.5])
     # Otherwise, targets the requested category.
     targets = None
-    # AblationCAM and ScoreCAM have batched implementations.
     # You can override the internal batch size for faster computation.
     cam.batch_size = 32
 
     grayscale_cam = cam(input_tensor=input_tensor,
                         targets=targets)
-    
+
     grayscale_cam = grayscale_cam[0, :]
 
     cam_image = show_cam_on_image(rgb_img, grayscale_cam)
     cv2.imwrite(output_path, cam_image)
-
