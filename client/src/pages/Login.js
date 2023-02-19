@@ -2,12 +2,26 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
+import Particles from "react-particles";
+import { loadFull } from "tsparticles";
 
 
 
 
 export default function Login() {
 
+    const particlesInit = useCallback(async engine => {
+        console.log(engine);
+        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+        // starting from v2 you can add only the features you need reducing the bundle size
+        await loadFull(engine);
+    }, []);
+
+    const particlesLoaded = useCallback(async container => {
+        await console.log(container);
+    }, []);
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const [redirectTarget, setRedirectTarget] = useState("");
@@ -62,6 +76,7 @@ export default function Login() {
           ```
         */}
             <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+                
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <img
                         className="mx-auto h-12 w-auto"
@@ -73,6 +88,78 @@ export default function Login() {
                 </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                    <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={{
+          fpsLimit: 120,
+          interactivity: {
+            events: {
+              onClick: {
+                enable: true,
+                mode: "push"
+              },
+              onHover: {
+                enable: true,
+                mode: "repulse"
+              },
+              resize: true
+            },
+            modes: {
+              push: {
+                quantity: 4
+              },
+              repulse: {
+                distance: 200,
+                duration: 0.4
+              }
+            }
+          },
+          particles: {
+            color: {
+              value: "#ffffff"
+            },
+            links: {
+              color: "#ffffff",
+              distance: 150,
+              enable: true,
+              opacity: 1,
+              width: 1
+            },
+            collisions: {
+              enable: true
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: {
+                default: "bounce"
+              },
+              random: false,
+              speed: 1,
+              straight: false
+            },
+            number: {
+              density: {
+                enable: true,
+                area: 800
+              },
+              value: 80
+            },
+            opacity: {
+              value: 0.5
+            },
+            shape: {
+              type: "circle"
+            },
+            size: {
+              value: { min: 1, max: 5 }
+            }
+          },
+          detectRetina: true
+        }}
+      />
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>

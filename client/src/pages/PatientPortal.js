@@ -15,7 +15,7 @@ function classNames(...classes) {
 
 
 export default function PatientPortal() {
-    const [selected, setSelected] = useState(patients[0])
+    const [selected, setSelected] = useState("")
     const [imgCT, setImg] = useState('https://thumbs.dreamstime.com/b/golden-retriever-dog-21668976.jpg')
 
     const testReq = () => {

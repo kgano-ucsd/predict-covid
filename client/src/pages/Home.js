@@ -2,12 +2,16 @@ import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
+import { useCallback } from "react";
+import Particles from "react-particles";
+import { loadFull } from "tsparticles";
 
 function getToken() {
     const tokenString = sessionStorage.getItem('token');
     if (tokenString == null || tokenString == "undefined") {
         return null;
     }
+    
     console.log(tokenString);
     return tokenString;
     const userToken = JSON.parse(tokenString);
@@ -56,9 +60,93 @@ function ActionButton(props) {
 
 export default function Home() {
 
+    const particlesInit = useCallback(async engine => {
+        console.log(engine);
+        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+        // starting from v2 you can add only the features you need reducing the bundle size
+        await loadFull(engine);
+    }, []);
+
+    const particlesLoaded = useCallback(async container => {
+        await console.log(container);
+    }, []);
+
     const token = JSON.parse(getToken());
     return (
         <div className="isolate bg-white">
+            <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={{
+          fpsLimit: 120,
+          interactivity: {
+            events: {
+              onClick: {
+                enable: true,
+                mode: "push"
+              },
+              onHover: {
+                enable: true,
+                mode: "repulse"
+              },
+              resize: true
+            },
+            modes: {
+              push: {
+                quantity: 4
+              },
+              repulse: {
+                distance: 200,
+                duration: 0.4
+              }
+            }
+          },
+          particles: {
+            color: {
+              value: "#ffffff"
+            },
+            links: {
+              color: "#ffffff",
+              distance: 150,
+              enable: true,
+              opacity: 1,
+              width: 1
+            },
+            collisions: {
+              enable: true
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: {
+                default: "bounce"
+              },
+              random: false,
+              speed: 1,
+              straight: false
+            },
+            number: {
+              density: {
+                enable: true,
+                area: 800
+              },
+              value: 80
+            },
+            opacity: {
+              value: 0.5
+            },
+            shape: {
+              type: "circle"
+            },
+            size: {
+              value: { min: 1, max: 5 }
+            }
+          },
+          detectRetina: true
+        }}
+      />
             <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu  sm:top-[-20rem]">
                 <svg
                     className="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]"
@@ -89,10 +177,7 @@ export default function Home() {
             <div className="px-6 pt-6 lg:px-8">
                 <nav className="flex items-center justify-between" aria-label="Global">
                     <div className="flex lg:flex-1">
-                        <a href="#" className="-m-1.5 p-1.5">
-
-                            <img className="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600" alt="" />
-                        </a>
+    
                         <span className="ml-2 text-2xl font-bold">thrive<span className="text-purple-600">.</span>ai</span>
                     </div>
 
@@ -112,10 +197,10 @@ export default function Home() {
                         </div> */}
                         <div className="text-left">
                             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                                thrive.ai
+                                thrive<span className='text-purple-600'>.</span>ai
                             </h1>
                             <p className="mt-6 text-lg leading-8 text-gray-600">
-                                Patient care is more than just a diagnosis.
+                                Patient care involves more than just a diagnosis.
                             </p>
 
                             <div className="mt-10 flex items-left justify-left gap-x-6">
@@ -126,7 +211,7 @@ export default function Home() {
 
                     </div>
                     <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden sm:top-[calc(100%-30rem)]">
-                        <svg
+                    <svg
                             className="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]"
                             viewBox="0 0 1155 678"
                         >
@@ -144,8 +229,8 @@ export default function Home() {
                                     y2="474.645"
                                     gradientUnits="userSpaceOnUse"
                                 >
-                                    <stop stopColor="#9089FC" />
-                                    <stop offset={1} stopColor="#FF80B5" />
+                                    <stop stopColor="#FF80B5" />
+                                    <stop offset={1} stopColor="#9089FC" />
                                 </linearGradient>
                             </defs>
                         </svg>
