@@ -24,17 +24,31 @@ function ActionButton(props) {
             Login Portal
         </Link>;
     } else if (token['role'] == "doctor") {
-        return <Link to="/create"
+        return <><Link to="/create"
             className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Doctor Portal
-        </Link>;
+        </Link>
+            <Link to="/#"
+                className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={() => { sessionStorage.clear(); window.location.reload(); }}
+            >
+                Log out
+            </Link>
+        </>;
     } else if (token['role'] == "patient") {
-        return <Link to="/patient"
+        return <><Link to="/patient"
             className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Patient Portal
         </Link>
+            <Link to="/#"
+                className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={() => { sessionStorage.clear(); window.location.reload(); }}
+            >
+                Log out
+            </Link>
+        </>
     }
     return <p>wtf</p>;
 }
@@ -79,7 +93,7 @@ export default function Home() {
 
                             <img className="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600" alt="" />
                         </a>
-                        <span className="ml-2 text-2xl font-bold">thrive.ai</span>
+                        <span className="ml-2 text-2xl font-bold">thrive<span className="text-purple-600">.</span>ai</span>
                     </div>
 
                 </nav>
