@@ -55,7 +55,7 @@ Limit responses to 2 sentences, and word your explanations like I am someone who
         <header className="grid place-items-center mt-3">
           <h1 className="text-3xl font-bold">Interactive Diagnosis</h1>
         </header>
-          <main className="rounded-box bg-netural py-4">
+          <main className="rounded-sm border-black border-1 bg-netural py-4">
                {apiResponse.map((res, i) => {
                 return (
                   <div key={i}>
