@@ -6,6 +6,7 @@ import ScanCard from '../components/ScanCard'
 import PatientView from '../components/PatientViewer/PatientView'
 import PatientViewer from '../components/PatientViewer/PatientViewer'
 import { PaperClipIcon, CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import LLM from '../components/LLM.jsx'
 const patients = [
     { id: 1, name: 'Patient 1' },
     { id: 2, name: 'Patient 2' },
@@ -214,36 +215,8 @@ export default function PatientPortal() {
                                     <div className="chat chat-start">
                                         <div className="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
                                     </div>
-                                    <div className="chat chat-end">
-                                        <div className="chat-bubble">You underestimate my power!</div>
-                                    </div>
-                                    <div className="chat chat-start">
-                                        <div className="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
-                                    </div>
-                                    <div className="chat chat-end">
-                                        <div className="chat-bubble">You underestimate my power!</div>
-                                    </div>
-                                    <div className="chat chat-start">
-                                        <div className="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
-                                    </div>
-                                    <div className="chat chat-end">
-                                        <div className="chat-bubble">You underestimate my power!</div>
-                                    </div>
-                                    <div className="chat chat-start">
-                                        <div className="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
-                                    </div>
-                                    <div className="chat chat-end">
-                                        <div className="chat-bubble">You underestimate my power!</div>
-                                    </div>
-                                    <div className="chat chat-start">
-                                        <div className="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
-                                    </div>
-                                    <div className="chat chat-end">
-                                        <div className="chat-bubble">You underestimate my power!</div>
-                                    </div>
-                                    <div className="chat chat-start">
-                                        <div className="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
-                                    </div>
+                                    <LLM />
+                                    
 
 
                                 </div>
