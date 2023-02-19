@@ -28,61 +28,6 @@ def send_patient_data():
     return Response(status=204)
 
 
-@app.route("/create_account", methods=["POST"])
-def create_account():
-    account_data = request.get_json()['packet']['patient']
-    salt = bcrypt.gensalt()
-
-
-@app.route("/login", methods=["POST"])
-def authen():
-    print("tryna do it")
-    print(request)
-    got = request.get_json()['user']
-    print(got)
-    user = got['username']
-    pw = got['password']
-
-    # try to locate user
-    file = open('./database/accounts.json')
-    data = json.load(file)
-    for acc in data:
-        if acc['username'] == user:
-            # check if pw matches
-            if bcrypt.checkpw(pw.encode('utf-8'), acc['salted'].encode('utf-8')):
-                # gaming
-                print("found!")
-                return {
-                    "success": True,
-                    "role": acc['role'],
-                    "pw": pw
-                }
-            else:
-                return {
-                    "success": False,
-                    "message": "Incorrect password."
-                }
-    print("bruh")
-    return {
-        "success": False,
-        "message": "Could not find account name."
-    }
-
-
-@app.route("/get_patient_image", methods=["POST"])
-def send_patient_image():
-    print(request.get_json())
-    patient_id = request.get_json()['packet']['id']
-
-    file = open('./database/patient_info.json')
-    data = json.load(file)
-    for patient_info in data:
-        if patient_info['id'] == str(patient_id):
-            file_path = patient_info['scans'][0]
-            return send_file(file_path)
-            return patient_info['scans']
-    return Response(status=204)
-
 
 @app.route("/database/<patient_id>/<filename>", methods=["GET"])
 def sendit(patient_id, filename):
