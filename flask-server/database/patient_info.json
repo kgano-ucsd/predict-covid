@@ -1,0 +1,25 @@
+[
+    {
+        "id": "1"
+    },
+    {
+        "id": "2"
+    },
+    {
+        "id": "3"
+    },
+    {
+        "id": "4"
+    },
+    {
+        "id": "5",
+        "info": {
+            "age": 19,
+            "name": "Billy",
+            "sex": "male"
+        },
+        "scans": [
+            "/Users/very/Documents/webdev/predict-covid/flask-server/database/patient5/26.png"
+        ]
+    }
+]
