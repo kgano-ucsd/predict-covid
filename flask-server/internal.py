@@ -126,5 +126,4 @@ def generate_fullgrad(image_path: str, output_path: str):
 
     cam_image = show_cam_on_image(rgb_img, grayscale_cam)
     cv2.imwrite(output_path, cam_image)
-         
 
