@@ -11,17 +11,6 @@ import { loadFull } from "tsparticles";
 
 export default function Login() {
 
-    const particlesInit = useCallback(async engine => {
-        console.log(engine);
-        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-        // starting from v2 you can add only the features you need reducing the bundle size
-        await loadFull(engine);
-    }, []);
-
-    const particlesLoaded = useCallback(async container => {
-        await console.log(container);
-    }, []);
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const [redirectTarget, setRedirectTarget] = useState("");
@@ -75,91 +64,14 @@ export default function Login() {
           <body class="h-full">
           ```
         */}
-            <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="flex min-h-full flex-col justify-center bg-gradient-to-r from-pink-200 to-purple-400 h-screen py-12 sm:px-6 lg:px-8">
                 
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt="Your Company"
-                    />
-                    <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+                    <h1 className="text-4xl text-center font-bold">thrive<span className="text-purple-600">.</span>ai Portal</h1>
+                    <h2 className="mt-6 text-center text-2xl font-semibold tracking-tight text-gray-900">Sign in to your account</h2>
 
                 </div>
-
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                    <Particles
-        id="tsparticles"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        options={{
-          fpsLimit: 120,
-          interactivity: {
-            events: {
-              onClick: {
-                enable: true,
-                mode: "push"
-              },
-              onHover: {
-                enable: true,
-                mode: "repulse"
-              },
-              resize: true
-            },
-            modes: {
-              push: {
-                quantity: 4
-              },
-              repulse: {
-                distance: 200,
-                duration: 0.4
-              }
-            }
-          },
-          particles: {
-            color: {
-              value: "#ffffff"
-            },
-            links: {
-              color: "#ffffff",
-              distance: 150,
-              enable: true,
-              opacity: 1,
-              width: 1
-            },
-            collisions: {
-              enable: true
-            },
-            move: {
-              direction: "none",
-              enable: true,
-              outModes: {
-                default: "bounce"
-              },
-              random: false,
-              speed: 1,
-              straight: false
-            },
-            number: {
-              density: {
-                enable: true,
-                area: 800
-              },
-              value: 80
-            },
-            opacity: {
-              value: 0.5
-            },
-            shape: {
-              type: "circle"
-            },
-            size: {
-              value: { min: 1, max: 5 }
-            }
-          },
-          detectRetina: true
-        }}
-      />
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
