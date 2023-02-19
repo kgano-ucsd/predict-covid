@@ -11,17 +11,9 @@ function classNames(...classes) {
 
 
 
-export default function Example() {
+export default function DoctorPortal() {
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
             <div className="min-h-full">
 
 
