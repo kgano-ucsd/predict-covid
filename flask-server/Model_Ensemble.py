@@ -53,6 +53,7 @@ from utililties import *
 
 
 
+
 def estimate(X_train,y_train):
     i = 0
     ii = 0
@@ -64,18 +65,13 @@ def estimate(X_train,y_train):
     batch_size=20
     epochs=2
     # Number of classes
-    num_cpu = multiprocessing.cpu_count()
     num_classes = 2
     torch.manual_seed(8)
-    torch.cuda.manual_seed(8)
     np.random.seed(8)
     random.seed(8)
     
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
     
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     
       
     X = []
@@ -144,22 +140,22 @@ def estimate(X_train,y_train):
     
     dataloaders = {
         'train' : data.DataLoader(train_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
         'valid' : data.DataLoader(valid_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)
 }
     
 
      
     modelA = DenseNet121(num_classes,pretrained=True)
     num_ftrs1 = modelA.fc.in_features
-    checkpoint0 = torch.load('Model_densenet121_state.pth', map_location='cpu')
+    checkpoint0 = torch.load('Model_densenet121_state.pth')
     modelA.load_state_dict(checkpoint0) 
         
     modelC = ResidualAttentionModel(2)
     num_ftrs2 = modelC.fc.in_features
-    checkpoint0 = torch.load('Model_residual_state.pth', map_location='cpu')
-    modelC.load_state_dict(checkpoint0)
+    checkpoint1 = torch.load('Model_res_state.pth')
+    modelC.load_state_dict(checkpoint1)
     
        
     model = MyEnsemble(modelA, modelC,num_ftrs1,num_ftrs2)
@@ -171,7 +167,7 @@ def estimate(X_train,y_train):
     for param in modelA.parameters():
              param.requires_grad_(False) 
     
-    model = nn.DataParallel(model, device_ids=[ 0, 1,2, 3]).cuda()
+
     criterion = nn.CrossEntropyLoss()
     #optimizer = optim.SGD(model.parameters(), lr=0.006775, momentum=0.5518,weight_decay=0.000578)
     #optimizer = optim.SGD(model.parameters(), lr=0.006775, momentum=0.5518,weight_decay=0.000578)
@@ -281,7 +277,7 @@ def estimate(X_train,y_train):
                     best_acc = epoch_acc
                     best_loss = epoch_loss
                     best_epoch = epoch
-                    best_model_wts = copy.deepcopy(model.module.state_dict())
+                    best_model_wts = copy.deepcopy(model.state_dict())
                     best_model_wts_module = copy.deepcopy(model.state_dict())
                
 
@@ -297,7 +293,7 @@ def estimate(X_train,y_train):
     print('Best valid f1: {:4f}'.format(best_f1))
     print('best epoch: ', best_epoch)
         
-    model.module.classifier2 = nn.Identity()
+    model.classifier2 = nn.Identity()
    
     for param in model.parameters():
              param.requires_grad_(False)
@@ -365,7 +361,7 @@ def predict(X_test,model_main=None):
     ncolumns=256
     num_classes = 2
     bs = 20
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     
     modelA = DenseNet121(num_classes,pretrained=True)
     num_ftrs1 = modelA.fc.in_features
@@ -380,7 +376,7 @@ def predict(X_test,model_main=None):
     for param in model_main.parameters():
              param.requires_grad_(False) 
      
-    model_main = nn.DataParallel(model_main, device_ids=[ 0, 1,2, 3]).cuda()
+    model_main = nn.DataParallel(model_main)
     X_t = []
     X_test=np.reshape(np.array(X_test),[len(X_test),])
     
@@ -396,7 +392,6 @@ def predict(X_test,model_main=None):
     y_pred=[]
     
     torch.manual_seed(0)
-    torch.cuda.manual_seed(0)
     np.random.seed(0)
     random.seed(0)
     device = torch.device("cpu")
@@ -441,7 +436,7 @@ def predict(X_test,model_main=None):
         if i% math.ceil(len(X_test)/bs)==0:
                break
     
-    model_main.module.classifier2 = nn.Identity()
+    model_main.classifier2 = nn.Identity()
     
     
     clf = loaded_model = joblib.load('classifier_ExtraTrees.sav')
@@ -451,7 +446,7 @@ def predict(X_test,model_main=None):
     for inputs in dataloader:
         inputs = inputs.to(device, non_blocking=True)
         outputs = model_main(inputs)
-        preds = clf.predict(outputs.cpu())
+        preds = clf.predict(outputs)
         
         for ii in range(len(preds)):
            if preds[ii] > 0.5:

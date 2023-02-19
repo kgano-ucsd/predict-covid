@@ -6,6 +6,7 @@ from torch.nn import init
 from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
+import dill as pickle
 
 classes = ('1noncorona', '2corona')
 

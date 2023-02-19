@@ -1,12 +1,11 @@
 import os
 #os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-import pickle
+import dill as pickle
 from datetime import datetime
 import cv2
 import math
 import numpy as np
 import os
-from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 import PIL
@@ -62,18 +61,15 @@ def estimate(X_train,y_train):
     batch_size=16
     epochs=2
     # Number of classes
-    num_cpu = multiprocessing.cpu_count()
     num_classes = 2
     torch.manual_seed(8)
-    torch.cuda.manual_seed(8)
     np.random.seed(8)
     random.seed(8)
+
+
     
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
     
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     
     
     X = []
@@ -100,11 +96,12 @@ def estimate(X_train,y_train):
     labels_all = []
     
     X_train, X_val, y_train, y_val = train_test_split(x, y_train, test_size=0.2, random_state=2)
+
     
     
     image_transforms = { 
      'train': transforms.Compose([
-         transforms.Lambda(lambda x: x/255),
+        transforms.Lambda(lambda x: x/255),
         transforms.ToPILImage(), 
          transforms.Resize((230, 230)),
     transforms.RandomResizedCrop((224),scale=(0.75,1.0)),     
@@ -142,15 +139,14 @@ def estimate(X_train,y_train):
     
     dataloaders = {
         'train' : data.DataLoader(train_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False),
         'valid' : data.DataLoader(valid_data, batch_size=batch_size, shuffle=True,
-                            num_workers=num_cpu, pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)  
+                            pin_memory=True, worker_init_fn=np.random.seed(7), drop_last=False)  
 }
    
         
     model = DenseNet121(num_classes,pretrained=True)
     
-    model = nn.DataParallel(model, device_ids=[ 0, 1,2, 3]).cuda()
     #print(model)
     criterion = nn.CrossEntropyLoss()
     #optimizer = optim.SGD(model.parameters(), lr=0.06775, momentum=0.5518,weight_decay=0.000578)
@@ -199,12 +195,10 @@ def estimate(X_train,y_train):
                          outputs = model(inputs)
                          _, preds = torch.max(outputs, 1)
                          loss = criterion(outputs, labels)
-                    
                    
                          predictions=torch.cat([predictions,preds.float()])
                          all_labels=torch.cat([all_labels,labels.float()])
                     
-                        
                     # backward + optimize only if in training phase
                          if phase == 'train':
                                loss.backward()
@@ -252,7 +246,7 @@ def estimate(X_train,y_train):
                     best_acc = epoch_acc
                     best_loss = epoch_loss
                     best_epoch = epoch
-                    best_model_wts = copy.deepcopy(model.module.state_dict())
+                    best_model_wts = copy.deepcopy(model.state_dict())
                     best_model_wts_module = copy.deepcopy(model.state_dict())
                 
     model.load_state_dict(best_model_wts_module)
@@ -267,7 +261,7 @@ def estimate(X_train,y_train):
     print('best epoch: ', best_epoch)
      
     ## Replacing the last fully connected layer with SVM or ExtraTrees Classifiers  
-    model.module.fc = nn.Identity()
+    model.fc = nn.Identity()
    
     for param in model.parameters():
              param.requires_grad_(False)
@@ -349,7 +343,6 @@ def predict(X_test,model_main=None):
     y_pred=[]
     
     torch.manual_seed(8)
-    torch.cuda.manual_seed(8)
     np.random.seed(8)
     random.seed(8)
     device = torch.device("cpu")
