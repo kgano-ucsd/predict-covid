@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 const { Configuration, OpenAIApi } = require("openai");
 
 const LLM = () => {
@@ -7,68 +7,44 @@ const LLM = () => {
   });
 
   const openai = new OpenAIApi(configuration);
-  const [prompt, setPrompt] = useState("");
+
+  const [input, setInput] = useState("");
+
   const [apiResponse, setApiResponse] = useState("");
   const [loading, setLoading] = useState(false);
+
   const init = "You are a chat bot on a medical imaging platform. Your role is to answer questions about a lung scan showing a covid-19 diagnosis.";
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const result = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: init + prompt,
-        temperature: 0.5,
-        max_tokens: 4000,
-      });
-      console.log("response", result.data.choices[0].text);
-      setApiResponse(result.data.choices[0].text);
-    } catch (e) {
-      //console.log(e);
-      setApiResponse("Something is going wrong, Please try again.");
-    }
+    const result = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: init + input,
+      temperature: 0.5,
+      max_tokens: 4000,
+    });
+    console.log("response", result.data.choices[0].text);
+    setApiResponse(result.data.choices[0].text);
     setLoading(false);
   };
 
 
+
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: '100vh',
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <textarea
-            type="text"
-            value={prompt}
-            placeholder="Please ask to openai"
-            onChange={(e) => setPrompt(e.target.value)}
-          ></textarea>
-          <button
-            disabled={loading || prompt.length === 0}
-            type="submit"
-          >
-            {loading ? "Generating..." : "Generate"}
-          </button>
-        </form>
-      </div>
-      {apiResponse && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <pre>
-            <strong>API response:</strong>
-            {apiResponse}
-          </pre>
+        <div className="align-items-center text-center">
+          <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">What is your name?</span>
+            <span className="label-text-alt">Alt label</span>
+          </label>
+          <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+          <label className="label">
+            <span className="label-text-alt">Alt label</span>
+            <span className="label-text-alt">Alt label</span>
+          </label>
         </div>
-      )}
+        </div>
     </>
   );
 };
