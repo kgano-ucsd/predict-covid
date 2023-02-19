@@ -27,20 +27,6 @@ def send_patient_data():
     return Response(status=204)
 
 
-@app.route("/get_patient_image", methods=["POST"])
-def send_patient_image():
-    print(request.get_json())
-    patient_id = request.get_json()['packet']['id']
-
-    file = open('./database/patient_info.json')
-    data = json.load(file)
-    for patient_info in data:
-        if patient_info['id'] == str(patient_id):
-            file_path = patient_info['scans'][0]
-            return send_file(file_path)
-            return patient_info['scans']
-    return Response(status=204)
-
 
 @app.route("/database/<patient_id>/<filename>", methods=["GET"])
 def sendit(patient_id, filename):
