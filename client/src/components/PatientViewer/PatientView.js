@@ -11,7 +11,7 @@ export default function View({patient}) {
 
         <header className="bg-white shadow">
             <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold tracking-tight text-black">Patient Patrick Li</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-black">Patient Edwin</h1>
             </div>
         </header>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
@@ -33,7 +33,7 @@ export default function View({patient}) {
                         </div>
                         <div className="sm:col-span-1">
                             <dt className="text-sm font-medium text-gray-500">Sex</dt>
-                            <dd className="mt-1 text-sm text-gray-900">Female</dd>
+                            <dd className="mt-1 text-sm text-gray-900">Male</dd>
                         </div>
                         <div className="sm:col-span-1">
                             <dt className="text-sm font-medium text-gray-500">Ethnicity</dt>
@@ -53,15 +53,10 @@ export default function View({patient}) {
             {/* ct scans */}
             <div className="sm:col-span-1 py-5 px-4 sm:px-6">
                 <div className="bg-base-100 border border-gray-200 py-4">
-                    <h2 className="card-title">CT Scans</h2>
+                    <h2 className="card-title text-xl px-4">CT Scans</h2>
                     <figure className="px-10 pt-10">
                         <img src={lungs1} alt="Shoes" className="rounded-xl" />
                     </figure>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions">
-                        <button className="btn btn-primary">Buy Now</button>
-                    </div>
-
                 </div>
             </div>
 
