@@ -8,8 +8,8 @@
             "sex": "Male"
         },
         "scans": {
-            "original": "",
-            "cam":""
+            "original": "./database/patient1/Patient1.png",
+            "cam": "./database/patient1/Patient1_CAM.png"
         }
             
     },
@@ -22,8 +22,8 @@
             "sex": "Male"
         },
         "scans": {
-            "original": "",
-            "cam":""
+            "original": "./database/patient2/Patient2.png",
+            "cam": "./database/patient2/Patient2_CAM.png"
         }
     },
     {
@@ -35,8 +35,8 @@
             "sex": "Female"
         },
         "scans": {
-            "original": "",
-            "cam":""
+            "original": "./database/patient3/Patient3.png",
+            "cam": "./database/patient3/Patient3_CAM.png"
         }
         
     },
@@ -49,8 +49,8 @@
             "sex": "Male"
         },
         "scans": {
-            "original": "",
-            "cam":""
+            "original": "./database/patient1/Patient4.png",
+            "cam": "./database/patient1/Patient4_CAM.png"
         }
     },
     {
@@ -62,8 +62,8 @@
             "sex": "Female"
         },
         "scans": {
-            "original": "",
-            "cam":""
+            "original": "./database/patient5/Patient5.png",
+            "cam": "./database/patient5/Patient5_CAM.png"
         }
     }
 ]
