@@ -8,6 +8,25 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+const edwin = {
+
+}
+
+const sarah = {
+
+}
+
+const bill = {
+
+}
+
+const tony = {
+
+}
+
+const clara = {
+    
+}
 
 
 
@@ -60,15 +79,15 @@ export default function DoctorPortal() {
                                         <tbody>
 
                                             <tr>
-                                                <td>Cy Ganderton</td>
-                                                <td>24</td>
+                                                <td>Billy</td>
+                                                <td>69</td>
                                                 <td>Male</td>
                                                 <td>Caucasian</td>
                                                 <td><div className="btn-link"> View</div></td>
                                             </tr>
 
                                             <tr>
-                                                <td>Hart Hagerty</td>
+                                                <td>Edwin</td>
                                                 <td>31</td>
                                                 <td>Male</td>
                                                 <td>East Asian</td>
@@ -76,10 +95,24 @@ export default function DoctorPortal() {
                                             </tr>
 
                                             <tr>
-                                                <td>Sarah Lee</td>
-                                                <td>85</td>
+                                                <td>Sarah</td>
+                                                <td>18</td>
                                                 <td>Female</td>
                                                 <td>African American</td>
+                                                <td><div className="btn-link"> View</div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Clara</td>
+                                                <td>27</td>
+                                                <td>Female</td>
+                                                <td>Caucasian</td>
+                                                <td><div className="btn-link"> View</div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tony</td>
+                                                <td>19</td>
+                                                <td>Male</td>
+                                                <td>Latin America</td>
                                                 <td><div className="btn-link"> View</div></td>
                                             </tr>
                                         </tbody>
