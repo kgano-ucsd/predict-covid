@@ -10,6 +10,10 @@ import joblib
 import torch.nn as nn
 from utililties import *
 from torch.utils.data import DataLoader
+import torch
+from pytorch_grad_cam import *
+from pytorch_grad_cam.utils.image import show_cam_on_image, \
+    preprocess_image
 
 num_classes = 2
 model_main = DenseNet121(num_classes,pretrained=True)
@@ -93,4 +97,34 @@ def classify(dataset):
                 y_pred2.append('COVID Negative')
 
     return y_pred2[0]
+
+def generate_fullgrad(image_path: str, output_path: str):
+
+    def reshape_transform(tensor):
+        return tensor
+
+    layer = [model_main.encoder4]
+
+    cam = FullGrad(model=model_main,
+        target_layers=layer,
+        reshape_transform=reshape_transform)
+    
+    rgb_img = preprocess(image_path)[:, :, ::-1]
+    rgb_img = np.float32(rgb_img) / 255
+    input_tensor = preprocess_image(rgb_img, mean=[0.5, 0.5, 0.5],
+                                    std=[0.5, 0.5, 0.5])
+    # Otherwise, targets the requested category.
+    targets = None
+    # AblationCAM and ScoreCAM have batched implementations.
+    # You can override the internal batch size for faster computation.
+    cam.batch_size = 32
+
+    grayscale_cam = cam(input_tensor=input_tensor,
+                        targets=targets)
+    
+    grayscale_cam = grayscale_cam[0, :]
+
+    cam_image = show_cam_on_image(rgb_img, grayscale_cam)
+    cv2.imwrite(output_path, cam_image)
+         
 
