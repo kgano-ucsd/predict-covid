@@ -34,7 +34,7 @@ function App() {
   const token = JSON.parse(getToken());
 
   console.log("my token is " + token)
-  if (token == null || !token["success"]) {
+  if (token == null || !token["id"]) {
 
     console.log("null token, " + token + (token == null))
     return (
@@ -71,10 +71,10 @@ function App() {
           with exact path "/", in component props 
           we passes the imported component*/}
             <Route path='/' element={<Home />} />
-            <Route path='/create' element={<Doctor />} />
+            <Route path='/create' element={<Doctor token={token} />} />
             {/* <Route path='/patient' element={<Patient />} /> */}
             <Route path='/patient-demo' element={<PDemo />} />
-            <Route path='/view' element={<PatientView />} />
+            <Route path='/view' element={<PatientView token={token} />} />
             <Route path='/login' element={<Navigate to="/" />} />
           </Routes>
         </Router>
@@ -93,7 +93,7 @@ function App() {
           we passes the imported component*/}
             <Route path='/' element={<Home />} />
             {/* <Route path='/create' element={<Doctor />} /> */}
-            <Route path='/patient' element={<Patient />} />
+            <Route path='/patient' element={<Patient token={token} />} />
             <Route path='/patient-demo' element={<PDemo />} />
             {/* <Route path='/view' element={<PatientView />} /> */}
             {/* <Route path='/login' element={<Login />} /> */}

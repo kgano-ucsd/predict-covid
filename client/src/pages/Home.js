@@ -19,18 +19,18 @@ function ActionButton(props) {
     const token = props.token;
     if (token == null || token['success'] == false) {
         return <Link to="/login"
-            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Login Portal
         </Link>;
     } else if (token['role'] == "doctor") {
         return <><Link to="/create"
-            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Doctor Portal
         </Link>
             <Link to="/#"
-                className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="ml-5 rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={() => { sessionStorage.clear(); window.location.reload(); }}
             >
                 Log out
@@ -38,12 +38,12 @@ function ActionButton(props) {
         </>;
     } else if (token['role'] == "patient") {
         return <><Link to="/patient"
-            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Patient Portal
         </Link>
             <Link to="/#"
-                className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="ml-5 rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={() => { sessionStorage.clear(); window.location.reload(); }}
             >
                 Log out
@@ -111,15 +111,18 @@ export default function Home() {
                             </div>
                         </div> */}
                         <div className="text-left">
-                            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                            <h1 className="text-8xl font-bold tracking-tight text-gray-900 -mb-2">
                                 thrive.ai
                             </h1>
-                            <p className="mt-6 text-lg leading-8 text-gray-600">
+                            <p className="mt-6 text-xl font-semibold leading-8 text-gray-600 mb-6">
                                 Patient care is more than just a diagnosis.
                             </p>
+                            <ActionButton token={token} />
+                        </div>
+                        <div className="text-center">
 
-                            <div className="mt-10 flex items-left justify-left gap-x-6">
-                                <ActionButton token={token} />
+                            <div className="mt-10 flex items-center justify-center gap-x-6">
+
 
                             </div>
                         </div>
@@ -152,6 +155,12 @@ export default function Home() {
                     </div>
                 </div>
             </main >
+            <footer>
+                <p className="text-lg text-gray-600 font-light p-20">
+                    Built with ❤️ by Patrick, Kam, and Arul using TailwindUI library.
+                </p>
+
+            </footer>
         </div >
     )
 }

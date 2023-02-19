@@ -163,6 +163,8 @@ def test_operation(input):
 
 
 def verify(token):
+    if (isinstance(token, str)):
+        token = json.loads(token)
     if not 'user' in token:
         return False
     if not 'pw' in token:
@@ -197,33 +199,25 @@ def verify(token):
 @app.route("/get_patient", methods=["POST"])
 # format: {"token": token of either doctor or patient}}
 def send_patient_data():
+    print("geetting patient id")
+
     req = request.get_json()
-    token = req['packet']['token']
-    requested_patient_id = req['packet']['id']
+    print(req)
+    token = req['token']
+    requested_patient_id = req['id']
     if not verify(token):
         return Response(status=204)
 
-    if token['role'] == "patient":
-        # must match the patient's
-        if token['id'] == requested_patient_id:
-            file = open('./database/patients.json')
-            data = json.load(file)
-            for patient_info in data:
-                if patient_info['id'] == requested_patient_id:
-                    return patient_info
-            return Response(status=204)
-        else:
-            return Response(status=204)
-    else:
-        # must be the patient's doctor
+    # must match the patient's
+    if token['id'] == requested_patient_id:
         file = open('./database/patients.json')
         data = json.load(file)
         for patient_info in data:
             if patient_info['id'] == requested_patient_id:
-                if patient_info['doctor'] == token['id']:
-                    return patient_info
-                else:
-                    return Response(status=204)
+                print("returning patient info, " + str(patient_info))
+                return patient_info
+        return Response(status=204)
+    else:
         return Response(status=204)
 
 
@@ -246,6 +240,17 @@ def create_referral():
         return False
 
     salt = bcrypt.gensalt()
+
+
+@app.route("/database/<patient_id>/<filename>", methods=["GET"])
+def sendit(patient_id, filename):
+    # print(request.get_json())
+    # patient_id = request.get_json()['packet']['id']
+
+    file = send_file('./database/' + patient_id + "/" +
+                     filename, mimetype='image/png')
+
+    return file
 
 
 @app.route("/login", methods=["POST"])
@@ -287,7 +292,8 @@ def authen():
 @app.route("/get_patients", methods=["POST"])
 def get_all_patients():
     req = request.get_json()
-    doctor_token = req['packet']['token']
+    print("patient get all request: " + str(req))
+    doctor_token = req
     if not verify(doctor_token) and doctor_token['role'] == "doctor":
         return False
 
@@ -302,6 +308,7 @@ def get_all_patients():
         if patient_info['doctor'] == doctor_id:
             patient_list.append(patient_info)
 
+    print(patient_list)
     return patient_list
 
 
