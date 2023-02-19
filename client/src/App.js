@@ -10,6 +10,8 @@ import Doctor from './pages/DoctorPortal';
 import Patient from './pages/PatientPortal';
 import PatientView from './components/PatientViewer/PatientView';
 import PDemo from './pages/PatientDemo';
+import Login from './pages/Login';
+
 
 function App() {
   return (
@@ -22,8 +24,9 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/create' element={<Doctor />} />
           <Route path='/patient' element={<Patient />} />
-          <Route path='/patient-demo' element={<PDemo/>}/>
+          <Route path='/patient-demo' element={<PDemo />} />
           <Route path='/view' element={<PatientView />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Router>
 

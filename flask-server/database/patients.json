@@ -1,6 +1,7 @@
 [
     {
         "id": "1",
+        "doctor": "1",
         "note": "",
         "info": {
             "age": 69,
@@ -11,10 +12,10 @@
             "original": "./database/patient1/Patient1.png",
             "cam": "./database/patient1/Patient1_CAM.png"
         }
-            
     },
     {
         "id": "2",
+        "doctor": "1",
         "note": "",
         "info": {
             "age": 21,
@@ -28,6 +29,7 @@
     },
     {
         "id": "3",
+        "doctor": "2",
         "note": "",
         "info": {
             "age": 18,
@@ -38,10 +40,10 @@
             "original": "./database/patient3/Patient3.png",
             "cam": "./database/patient3/Patient3_CAM.png"
         }
-        
     },
     {
         "id": "4",
+        "doctor": "2",
         "note": "",
         "info": {
             "age": 19,
@@ -55,6 +57,7 @@
     },
     {
         "id": "5",
+        "doctor": "3",
         "note": "",
         "info": {
             "age": 27,
