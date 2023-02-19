@@ -15,6 +15,7 @@ num_classes = 2
 model_main = DenseNet121(num_classes,pretrained=True)
 checkpoint0 = torch.load("Model_densenet121_state.pth")
 model_main.load_state_dict(checkpoint0)
+model_main.eval()
 
 clf = joblib.load('classifier_model.sav')
 model_main.eval()
