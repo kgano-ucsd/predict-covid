@@ -51,12 +51,28 @@ Limit responses to 2 sentences, and word your explanations like I am someone who
 
 
   return (
-    <div className="h-40 p-4 mt-6">
-      <div className="flex flex-col justify-center items-center  ">
-        <header>
-          <h1 className="text-3xl h-[20%] font-bold">Interactive Diagnosis</h1>
+    <div className="flex flex-col h-screen justify-center justify-between">
+        <header className="grid place-items-center mt-3">
+          <h1 className="text-3xl font-bold">Interactive Diagnosis</h1>
         </header>
-          <div className="flex flex-row justify-center items-center p-4 w-[80%]">
+          <main className="rounded-box bg-netural py-4">
+               {apiResponse.map((res, i) => {
+                return (
+                  <div key={i}>
+                    <div class="chat chat-end">
+                      <div class="chat-bubble chat-bubble-primary text_white">{prompts[i]}</div>
+                    </div>
+                    <div class="chat chat-start">
+                      <div class="chat-bubble chat-bubble-neutral">{res}</div>
+                    </div>
+                    
+                  </div>
+                );
+               })}
+                
+          </main>
+          
+          <footer className="flex flex-row h-[15%] w-[100%] justify-center p-3">
             <input type="text" 
                   placeholder="Ask to learn more..." 
                   className="input input-bordered w-[100%] text-xl font-medium h-20"
@@ -72,24 +88,7 @@ Limit responses to 2 sentences, and word your explanations like I am someone who
                   Submit
               </button>
             </div>
-          </div>
-          <div className="rounded-box bg-netural py-4">
-               {apiResponse.map((res, i) => {
-                return (
-                  <div key={i}>
-                    <div class="chat chat-end">
-                      <div class="chat-bubble chat-bubble-primary text_white">{prompts[i]}</div>
-                    </div>
-                    <div class="chat chat-start">
-                      <div class="chat-bubble chat-bubble-neutral">{res}</div>
-                    </div>
-                    
-                  </div>
-                );
-               })}
-                
-          </div>
-      </div>
+          </footer>
     </div>
   );
 };
