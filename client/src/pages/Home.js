@@ -5,25 +5,23 @@ import { Link } from "react-router-dom";
 
 function getToken() {
     const tokenString = sessionStorage.getItem('token');
-    if (tokenString == null || tokenString == "undefined") {
+    if (tokenString === null || tokenString === "undefined") {
         return null;
     }
     console.log(tokenString);
     return tokenString;
-    const userToken = JSON.parse(tokenString);
-    return userToken
 }
 
 
 function ActionButton(props) {
     const token = props.token;
-    if (token == null || token['success'] == false) {
+    if (token === null || token['success'] === false) {
         return <Link to="/login"
             className="rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-            Login Portal
+            Login
         </Link>;
-    } else if (token['role'] == "doctor") {
+    } else if (token['role'] === "doctor") {
         return <><Link to="/create"
             className="rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
@@ -36,7 +34,7 @@ function ActionButton(props) {
                 Log out
             </Link>
         </>;
-    } else if (token['role'] == "patient") {
+    } else if (token['role'] === "patient") {
         return <><Link to="/patient"
             className="rounded-md bg-blue-600 px-7 py-3 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
@@ -89,10 +87,6 @@ export default function Home() {
             <div className="px-6 pt-6 lg:px-8">
                 <nav className="flex items-center justify-between" aria-label="Global">
                     <div className="flex lg:flex-1">
-                        <a href="#" className="-m-1.5 p-1.5">
-
-                            <img className="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600" alt="" />
-                        </a>
                         <span className="ml-2 text-2xl font-bold">thrive<span className="text-purple-600">.</span>ai</span>
                     </div>
 
@@ -157,7 +151,7 @@ export default function Home() {
             </main >
             <footer>
                 <p className="text-lg text-gray-600 font-light p-20">
-                    Built with ❤️ by Patrick, Kam, and Arul using TailwindUI library.
+                    Built with ❤️ by Patrick, Kam, and Arul using Tailwind, PyTorch, and OpenAI's LLM API.
                 </p>
 
             </footer>
