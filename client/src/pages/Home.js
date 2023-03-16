@@ -8,7 +8,7 @@ import { loadFull } from "tsparticles";
 
 function getToken() {
     const tokenString = sessionStorage.getItem('token');
-    if (tokenString == null || tokenString == "undefined") {
+    if (tokenString === null || tokenString === "undefined") {
         return null;
     }
     
@@ -21,13 +21,13 @@ function getToken() {
 
 function ActionButton(props) {
     const token = props.token;
-    if (token == null || token['success'] == false) {
+    if (token === null || token['success'] === false) {
         return <Link to="/login"
             className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Login Portal
         </Link>;
-    } else if (token['role'] == "doctor") {
+    } else if (token['role'] === "doctor") {
         return <><Link to="/create"
             className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
@@ -40,7 +40,7 @@ function ActionButton(props) {
                 Log out
             </Link>
         </>;
-    } else if (token['role'] == "patient") {
+    } else if (token['role'] === "patient") {
         return <><Link to="/patient"
             className="rounded-md bg-blue-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
