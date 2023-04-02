@@ -6,8 +6,7 @@ import { useCallback } from "react";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
 
-
-
+// DANGEROUSLY_DISABLE_HOST_CHECK=true npm start
 
 export default function Login() {
 
