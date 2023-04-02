@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
+import Particles from "react-particles";
+import { loadFull } from "tsparticles";
 
-
-
+// DANGEROUSLY_DISABLE_HOST_CHECK=true npm start
 
 export default function Login() {
 
@@ -20,9 +22,6 @@ export default function Login() {
             username,
             password
         }).then(data => console.log("noice: " + data));
-
-
-
 
         return token;
 
@@ -56,13 +55,21 @@ export default function Login() {
 
     return (
         <>
-            <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+            {/*
+          This example requires updating your template:
+  
+          ```
+          <html class="h-full bg-gray-50">
+          <body class="h-full">
+          ```
+        */}
+            <div className="flex min-h-full flex-col justify-center bg-gradient-to-r from-pink-200 to-purple-400 h-screen py-12 sm:px-6 lg:px-8">
+                
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-
-                    <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+                    <h1 className="text-4xl text-center font-bold">thrive<span className="text-purple-600">.</span>ai Portal</h1>
+                    <h2 className="mt-6 text-center text-2xl font-semibold tracking-tight text-gray-900">Sign in to your account</h2>
 
                 </div>
-
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <form className="space-y-6" onSubmit={handleSubmit}>
