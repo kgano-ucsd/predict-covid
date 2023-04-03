@@ -111,7 +111,7 @@ export default function Home() {
                                 thrive<span className="text-purple-600">.</span>ai
                             </h1>
                             <p className="mt-6 text-xl font-semibold leading-8 text-gray-600 mb-6">
-                                Patient care is more than just a diagnosis.
+                                Patient care involves more than just a diagnosis.
                             </p>
                             <ActionButton token={token} />
                         </div>
@@ -153,7 +153,7 @@ export default function Home() {
             </main >
             <footer>
                 <p className="text-lg text-gray-600 font-light p-20">
-                    Built with ❤️ by Patrick, Kam, and Arul using TailwindUI library.
+                    Built with ❤️ by Patrick, Kam, and Arul using TailwindCSS, React, PyTorch, and OpenAI's da-vinci-300 api @ TreeHacks '23
                 </p>
 
             </footer>
